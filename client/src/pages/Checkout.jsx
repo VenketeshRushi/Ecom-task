@@ -61,7 +61,7 @@ function Checkout() {
       localStorage.removeItem("ordersummry");
       dispatch(orderSuccess);
       navigate("/orders");
-      window.location.reload()
+      //window.location.reload()
     }
   }
   return (
