@@ -3,6 +3,7 @@ import {
   GET_DATA_ERROR,
   GET_DATA_LOADING,
   GET_DATA_SUCCESS,
+  REMOVE_FROM_CART,
 } from "./actionTypes";
 
 const init = {
@@ -10,6 +11,10 @@ const init = {
   isError: false,
   products: [],
   cartItems: JSON.parse(localStorage.getItem("cartItems")) || [],
+  ordersummry: JSON.parse(localStorage.getItem("ordersummry")) || {
+    quantity: 0,
+    total: 0,
+  },
 };
 
 export const productReducer = (state = init, { type, payload }) => {
@@ -31,10 +36,19 @@ export const productReducer = (state = init, { type, payload }) => {
     }
 
     case ADD_TO_CART_SUCCESS: {
-      console.log("inside reducer payload", payload);
+      console.log("inside reducer payload", state.ordersummry, payload);
       return {
         ...state,
-        cartItems: [...payload],
+        cartItems: [...payload.cartData],
+        ordersummry: { ...state.ordersummry, ...payload.ordersummarydata },
+      };
+    }
+
+    case REMOVE_FROM_CART: {
+      return {
+        ...state,
+        cartItems: state.cartItems.filter((e, i) => i !== payload.index),
+        ordersummry: { ...state.ordersummry, ...payload.ordersummarydata },
       };
     }
 

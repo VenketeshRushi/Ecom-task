@@ -2,7 +2,6 @@ import {
   Box,
   Flex,
   Image,
-  Spacer,
   Text,
   Grid,
   Button,
@@ -28,8 +27,8 @@ function Products() {
   );
 
   function handlecart(e) {
-    console.log(e);
-    dispatch(addToCart(e, toast, navigate));
+    let data = { ...e, quantity: 1 };
+    dispatch(addToCart("add", data, toast));
   }
 
   return (

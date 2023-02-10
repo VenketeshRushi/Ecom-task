@@ -6,6 +6,7 @@ import {
   REMOVE_FROM_CART,
 } from "./actionTypes";
 import axios from "axios";
+import { carttotal, handlecartduplicate } from "../../Utils/getcartsummary";
 
 //Action Functions
 
@@ -20,22 +21,26 @@ export const getdata = () => async (dispatch) => {
   }
 };
 
-export const addToCart = (data, toast, navigate) => (dispatch) => {
+export const addToCart = (operation, data, toast) => (dispatch) => {
+  console.log(operation,data);
   let cartData = JSON.parse(localStorage.getItem("cartItems")) || [];
-  let checkduplicate = cartData.filter((ele) => ele._id === data._id);
-  if (checkduplicate.length > 0) {
-    toast({
-      title: "Item already present in cart",
-      status: "info",
-      duration: 2000,
-      isClosable: true,
-      position: "top",
-    });
-  } else {
-    cartData.push(data);
-    localStorage.setItem("cartItems", JSON.stringify(cartData));
-    dispatch({ type: ADD_TO_CART_SUCCESS, payload: cartData });
-    navigate("/cart");
+  console.log(cartData);
+  console.log("Datain action", data);
+
+  cartData = handlecartduplicate(cartData, data, operation);
+  console.log(cartData);
+  localStorage.setItem("cartItems", JSON.stringify(cartData));
+
+  let ordersummarydata = carttotal(cartData);
+  localStorage.setItem("ordersummry", JSON.stringify(ordersummarydata));
+  console.log("ordersummry", ordersummarydata);
+
+  dispatch({
+    type: ADD_TO_CART_SUCCESS,
+    payload: { cartData, ordersummarydata },
+  });
+
+  if (operation === "add") {
     toast({
       title: "Item added to the cart",
       status: "success",
@@ -43,6 +48,55 @@ export const addToCart = (data, toast, navigate) => (dispatch) => {
       isClosable: true,
       position: "top",
     });
+  } else if (operation === "reduce") {
+    toast({
+      title: "Item quantity reduced",
+      status: "info",
+      duration: 2000,
+      isClosable: true,
+      position: "top",
+    });
   }
+
+  // let checkduplicate = cartData.filter((ele) => ele._id === data._id);
+  // if (checkduplicate.length > 0) {
+  //   toast({
+  //     title: "Item already present in cart",
+  //     status: "info",
+  //     duration: 2000,
+  //     isClosable: true,
+  //     position: "top",
+  //   });
+  // } else {
+  //   cartData.push(data);
+  //   localStorage.setItem("cartItems", JSON.stringify(cartData));
+  //   let ordersummary = carttotal(cartData);
+  //   console.log(ordersummary);
+  //   dispatch({ type: ADD_TO_CART_SUCCESS, payload: cartData });
+  //   navigate("/cart");
+  //   toast({
+  //     title: "Item added to the cart",
+  //     status: "success",
+  //     duration: 2000,
+  //     isClosable: true,
+  //     position: "top",
+  //   });
+  // }
 };
 
+export const removeFromCart = (index, toast) => (dispatch) => {
+  const cartData = JSON.parse(localStorage.getItem("cartItems"));
+  cartData.splice(index, 1);
+  localStorage.setItem("cartItems", JSON.stringify(cartData));
+
+  let ordersummarydata = carttotal(cartData);
+  localStorage.setItem("ordersummry", JSON.stringify(ordersummarydata));
+  dispatch({ type: REMOVE_FROM_CART, payload: { index, ordersummarydata } });
+  toast({
+    title: "Item removed from the cart",
+    status: "success",
+    duration: 2000,
+    isClosable: true,
+    position: "top",
+  });
+};
