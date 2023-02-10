@@ -26,7 +26,7 @@ function Orders() {
   async function getOrderData() {
     try {
       setIsLoading(true);
-      let { data } = await axios.get("http://localhost:8080/order");
+      let { data } = await axios.get("https://ecom-task.onrender.com/order");
       data = data.reverse();
       setData(data);
       setIsLoading(false);

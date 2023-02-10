@@ -44,7 +44,7 @@ function Checkout() {
         position: "top",
       });
     } else {
-      let res = await axios.post("http://localhost:8080/order", {
+      let res = await axios.post("https://ecom-task.onrender.com/order", {
         ordersummry,
         cartItems,
         shippingdata,
