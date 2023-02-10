@@ -4,6 +4,7 @@ import {
   GET_DATA_LOADING,
   GET_DATA_SUCCESS,
   REMOVE_FROM_CART,
+  ORDER_SUCCESS,
 } from "./actionTypes";
 import axios from "axios";
 import { carttotal, handlecartduplicate } from "../../Utils/getcartsummary";
@@ -22,7 +23,7 @@ export const getdata = () => async (dispatch) => {
 };
 
 export const addToCart = (operation, data, toast) => (dispatch) => {
-  console.log(operation,data);
+  console.log(operation, data);
   let cartData = JSON.parse(localStorage.getItem("cartItems")) || [];
   console.log(cartData);
   console.log("Datain action", data);
@@ -57,31 +58,6 @@ export const addToCart = (operation, data, toast) => (dispatch) => {
       position: "top",
     });
   }
-
-  // let checkduplicate = cartData.filter((ele) => ele._id === data._id);
-  // if (checkduplicate.length > 0) {
-  //   toast({
-  //     title: "Item already present in cart",
-  //     status: "info",
-  //     duration: 2000,
-  //     isClosable: true,
-  //     position: "top",
-  //   });
-  // } else {
-  //   cartData.push(data);
-  //   localStorage.setItem("cartItems", JSON.stringify(cartData));
-  //   let ordersummary = carttotal(cartData);
-  //   console.log(ordersummary);
-  //   dispatch({ type: ADD_TO_CART_SUCCESS, payload: cartData });
-  //   navigate("/cart");
-  //   toast({
-  //     title: "Item added to the cart",
-  //     status: "success",
-  //     duration: 2000,
-  //     isClosable: true,
-  //     position: "top",
-  //   });
-  // }
 };
 
 export const removeFromCart = (index, toast) => (dispatch) => {
@@ -100,3 +76,7 @@ export const removeFromCart = (index, toast) => (dispatch) => {
     position: "top",
   });
 };
+
+export const orderSuccess = () => ({
+  type: ORDER_SUCCESS,
+});

@@ -13,11 +13,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { AddIcon, MinusIcon } from "@chakra-ui/icons";
 import Summary from "../Components/Summary";
 import { addToCart, removeFromCart } from "../Redux/products/actions";
+import { useNavigate } from "react-router-dom";
 function Cart() {
   const cartItems = useSelector((state) => state.productReducer.cartItems);
   const ordersummry = useSelector((state) => state.productReducer.ordersummry);
   const toast = useToast();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   console.log("ordersummry in cart page", ordersummry);
 
@@ -32,6 +34,9 @@ function Cart() {
     return dispatch(addToCart(name, product, toast));
   };
 
+  function handlecart() {
+    navigate("/checkout");
+  }
   return (
     <Box
       display={"grid"}
@@ -160,7 +165,7 @@ function Cart() {
           </Flex>
         ))}
       </Grid>
-      <Summary {...ordersummry} />
+      <Summary {...ordersummry} name={"Checkout"} onClick={handlecart} />
     </Box>
   );
 }

@@ -1,6 +1,6 @@
 import { Box, Flex, Text, Button, Divider } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-const Summary = ({ quantity, total }) => {
+const Summary = ({ quantity, total, name, onClick }) => {
   console.log(quantity, total);
   return (
     <Box>
@@ -19,19 +19,19 @@ const Summary = ({ quantity, total }) => {
         </Flex>
       </Box>
       <Divider mb={"20px"} />
-      <Link to={"/checkout"}>
-        <Button
-          bgColor={"black"}
-          color={"white"}
-          _hover={{
-            bgColor: "blue",
-          }}
-          width="100%"
-          borderColor={"transparent"}
-        >
-          Checkout
-        </Button>
-      </Link>
+
+      <Button
+        bgColor={"black"}
+        color={"white"}
+        _hover={{
+          bgColor: "blue",
+        }}
+        width="100%"
+        borderColor={"transparent"}
+        onClick={onClick}
+      >
+        {name}
+      </Button>
     </Box>
   );
 };
