@@ -37,7 +37,6 @@ export const productReducer = (state = init, { type, payload }) => {
     }
 
     case ADD_TO_CART_SUCCESS: {
-      console.log("inside reducer payload", state.ordersummry, payload);
       return {
         ...state,
         cartItems: [...payload.cartData],
@@ -48,11 +47,8 @@ export const productReducer = (state = init, { type, payload }) => {
     case REMOVE_FROM_CART: {
       return {
         ...state,
-        cartItems: JSON.parse(localStorage.getItem("cartItems")) || [],
-        ordersummry: JSON.parse(localStorage.getItem("ordersummry")) || {
-          quantity: 0,
-          total: 0,
-        },
+        cartItems: state.cartItems.filter((e, i) => i !== payload.index),
+        ordersummry: { ...state.ordersummry, ...payload.ordersummarydata },
       };
     }
 

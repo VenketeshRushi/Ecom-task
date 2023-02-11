@@ -9,8 +9,6 @@ export function carttotal(arr) {
 }
 
 const checkDuplicate = (arr, target) => {
-  console.log("in checkduplicate", arr);
-  console.log(target)
   for (let item of arr) {
     if (item._id === target._id || item.title === target.title) {
       return true;
@@ -20,14 +18,12 @@ const checkDuplicate = (arr, target) => {
 };
 
 export function handlecartduplicate(arr, target, operation) {
-  console.log("arr in handlecartduplicate", arr);
   const isPresent = checkDuplicate(arr, target);
   if (!isPresent) {
     arr.push(target);
     return arr;
   } else {
     arr = arr.map((item) => {
-      console.log("item", item);
       if (item._id === target._id || item.title === target.title) {
         const singleitemprice = item.price / item.quantity;
         return {

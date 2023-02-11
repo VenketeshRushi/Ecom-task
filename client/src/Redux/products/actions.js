@@ -23,18 +23,16 @@ export const getdata = () => async (dispatch) => {
 };
 
 export const addToCart = (operation, data, toast) => (dispatch) => {
-  console.log(operation, data);
+
   let cartData = JSON.parse(localStorage.getItem("cartItems")) || [];
-  console.log(cartData);
-  console.log("Datain action", data);
 
   cartData = handlecartduplicate(cartData, data, operation);
-  console.log(cartData);
+
   localStorage.setItem("cartItems", JSON.stringify(cartData));
 
   let ordersummarydata = carttotal(cartData);
   localStorage.setItem("ordersummry", JSON.stringify(ordersummarydata));
-  console.log("ordersummry", ordersummarydata);
+ 
 
   dispatch({
     type: ADD_TO_CART_SUCCESS,
@@ -77,6 +75,8 @@ export const removeFromCart = (index, toast) => (dispatch) => {
   });
 };
 
-export const orderSuccess = () => ({
-  type: ORDER_SUCCESS,
-});
+export const orderSuccess = () => (dispatch) => {
+  dispatch({
+    type: ORDER_SUCCESS,
+  });
+};

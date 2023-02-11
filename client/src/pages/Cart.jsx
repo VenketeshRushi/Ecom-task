@@ -15,13 +15,12 @@ import Summary from "../Components/Summary";
 import { addToCart, removeFromCart } from "../Redux/products/actions";
 import { useNavigate } from "react-router-dom";
 function Cart() {
-  const cartItems = useSelector((state) => state.productReducer.cartItems);
-  const ordersummry = useSelector((state) => state.productReducer.ordersummry);
   const toast = useToast();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  console.log("ordersummry in cart page", ordersummry);
+  const cartItems = useSelector((state) => state.productReducer.cartItems);
+  const ordersummry = useSelector((state) => state.productReducer.ordersummry);
 
   const handleRemoveItem = (index) => {
     dispatch(removeFromCart(index, toast));

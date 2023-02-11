@@ -12,6 +12,7 @@ function Checkout() {
 
   const ordersummry = useSelector((state) => state.productReducer.ordersummry);
   const cartItems = useSelector((state) => state.productReducer.cartItems);
+
   const initState = {
     name: "",
     addressLine: "",
@@ -20,12 +21,13 @@ function Checkout() {
     country: "",
     email: "",
   };
+
   const [shippingdata, setshippingdata] = useState(initState);
+
   function handlechnage(e) {
     let name = e.target.name;
     let value = e.target.value;
     setshippingdata({ ...shippingdata, [name]: value });
-    console.log(shippingdata);
   }
   async function handleorder() {
     if (
@@ -49,7 +51,6 @@ function Checkout() {
         cartItems,
         shippingdata,
       });
-      console.log(res);
       toast({
         title: "Order placed successfully",
         status: "success",
@@ -59,9 +60,8 @@ function Checkout() {
       });
       localStorage.removeItem("cartItems");
       localStorage.removeItem("ordersummry");
-      dispatch(orderSuccess);
+      dispatch(orderSuccess());
       navigate("/orders");
-      //window.location.reload()
     }
   }
   return (

@@ -1,7 +1,5 @@
 import { Box, Flex, Text, Button, Divider } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
 const Summary = ({ quantity, total, name, onClick }) => {
-  console.log(quantity, total);
   return (
     <Box>
       <Text fontSize={"20px"} fontWeight={600}>
